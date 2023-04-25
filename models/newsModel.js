@@ -100,6 +100,10 @@ const newsSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  numberofViews: {
+    type: Number,
+    default: 0,
+  },
 
   review: [
     {
