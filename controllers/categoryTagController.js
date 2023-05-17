@@ -129,6 +129,38 @@ exports.UpdateCategoryTag = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
+exports.DeleteCategoryTag = catchAsyncErrors(async (req, res, next) => {
+  try {
+    let categorytag = await Categorytag.findById(req.params.id);
+    if (!categorytag) {
+      return res.status(500).json({
+        success: false,
+        message: "categorytag not found",
+      });
+    }
+    await categorytag.remove();
+    res.status(200).json({
+      success: true,
+    });
+  } catch (error) {
+    res.status(501).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(400).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(500).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+  }
+});
+
 exports.UploadImage = catchAsyncErrors(async (req, res, next) => {
   try {
     const thumbnail = await cloudinary.v2.uploader.upload(req.body.thumbnail, {

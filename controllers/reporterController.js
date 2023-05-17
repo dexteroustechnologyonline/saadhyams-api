@@ -30,6 +30,33 @@ exports.createReporter = async (req, res, next) => {
   }
 };
 
+exports.getAllReporter = catchAsyncErrors(async (req, res) => {
+  try {
+    const repertories = await Reporter.find();
+    res.status(200).json({
+      success: true,
+      repertories: repertories,
+    });
+  } catch (error) {
+    res.status(501).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(400).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(500).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+  }
+});
+
+
 exports.loginReporter = catchAsyncErrors(async (req, res, next) => {
   try {
     const reporter = await Reporter.findOne({ mobile: req.body.mobile });

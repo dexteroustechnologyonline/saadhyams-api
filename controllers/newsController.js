@@ -117,10 +117,24 @@ exports.UploadImage = catchAsyncErrors(async (req, res, next) => {
 
 exports.newsCommentPost = catchAsyncErrors(async (req, res, next) => {
   try {
-    const news = await News.create(req.body.review);
-    res.status(201).json({
+    let news = await News.findById(req.body.newsId);
+    if (!news) {
+      return res.status(200).json({
+        success: false,
+        message: "news not found",
+      });
+    }
+
+    news.review = [req.body, ...news.review];
+
+    news = await News.findByIdAndUpdate(req.body.newsId, news, {
+      new: true,
+      useFindAndModify: false,
+      runValidators: true,
+    });
+    res.status(200).json({
       success: true,
-      news,
+      news: news,
     });
   } catch (error) {
     res.status(501).json({
@@ -167,74 +181,104 @@ exports.getAllNews = catchAsyncErrors(async (req, res) => {
   }
 });
 
-exports.getNewsByReporterId = catchAsyncErrors(
-  async (req, res, next) => {
-    try {
-      let news = await News.find({ reporterId: req.params.id });
+exports.getNewsByReporterId = catchAsyncErrors(async (req, res, next) => {
+  try {
+    let news = await News.find({ reporterId: req.params.id });
 
-      if (!news) {
-        return res.status(500).json({
-          success: false,
-          message: "news not found",
-        });
-      }
-      return res.status(200).json({
-        success: true,
-        news,
-      });
-    } catch (error) {
-      res.status(501).json({
+    if (!news) {
+      return res.status(500).json({
         success: false,
-        massage: error._message,
-        error: error,
-      });
-      res.status(400).json({
-        success: false,
-        massage: error._message,
-        error: error,
-      });
-      res.status(500).json({
-        success: false,
-        massage: error._message,
-        error: error,
+        message: "news not found",
       });
     }
+    return res.status(200).json({
+      success: true,
+      news,
+    });
+  } catch (error) {
+    res.status(501).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(400).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(500).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
   }
-);
+});
+
+exports.DeleteNews = catchAsyncErrors(async (req, res, next) => {
+  try {
+    let news = await News.findById(req.params.id);
+    if (!news) {
+      return res.status(500).json({
+        success: false,
+        message: "news not found",
+      });
+    }
+    await news.remove();
+    res.status(200).json({
+      success: true,
+    });
+  } catch (error) {
+    res.status(501).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(400).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(500).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+  }
+});
 
 exports.UpdateNews = catchAsyncErrors(async (req, res, next) => {
-    try {
-      let news = await News.findById(req.params.id);
-      if (!news) {
-        return res.status(500).json({
-          success: false,
-          message: "news not found",
-        });
-      }
-      news = await News.findByIdAndUpdate(req.params.id, req.body, {
-        new: true,
-        useFindAndModify: false,
-        runValidators: true,
-      });
-      res.status(200).json({
-        success: true,
-        news: news,
-      });
-    } catch (error) {
-      res.status(501).json({
+  try {
+    let news = await News.findById(req.params.id);
+    if (!news) {
+      return res.status(500).json({
         success: false,
-        massage: error._message,
-        error: error,
-      });
-      res.status(400).json({
-        success: false,
-        massage: error._message,
-        error: error,
-      });
-      res.status(500).json({
-        success: false,
-        massage: error._message,
-        error: error,
+        message: "news not found",
       });
     }
-  });
+    news = await News.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      useFindAndModify: false,
+      runValidators: true,
+    });
+    res.status(200).json({
+      success: true,
+      news: news,
+    });
+  } catch (error) {
+    res.status(501).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(400).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(500).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+  }
+});

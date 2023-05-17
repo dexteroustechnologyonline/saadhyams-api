@@ -130,6 +130,38 @@ exports.createuniversalTag = catchAsyncErrors(async(req,res,next)=>{
     }
   });
 
+  exports.DeleteUniversalTag = catchAsyncErrors(async (req, res, next) => {
+    try {
+      let universaltag = await Universaltag.findById(req.params.id);
+      if (!universaltag) {
+        return res.status(500).json({
+          success: false,
+          message: "universaltag not found",
+        });
+      }
+      await universaltag.remove();
+      res.status(200).json({
+        success: true,
+      });
+    } catch (error) {
+      res.status(501).json({
+        success: false,
+        massage: error._message,
+        error: error,
+      });
+      res.status(400).json({
+        success: false,
+        massage: error._message,
+        error: error,
+      });
+      res.status(500).json({
+        success: false,
+        massage: error._message,
+        error: error,
+      });
+    }
+  });
+
   exports.UploadImage = catchAsyncErrors(async (req, res, next) => {
     try {
       const thumbnail = await cloudinary.v2.uploader.upload(req.body.thumbnail, {

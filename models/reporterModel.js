@@ -7,12 +7,12 @@ const crypto = require("crypto");
 const reporterSchema = mongoose.Schema({
   firstname: {
     type: String,
-    required: [true, "Please enter  name"],
+    required: [true, "Please enter  firstname"],
     trim: true,
   },
   lastname: {
     type: String,
-    required: [true, "Please enter  name"],
+    required: [true, "Please enter  lastname"],
     trim: true,
   },
   email: {

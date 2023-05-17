@@ -116,6 +116,11 @@ const newsSchema = mongoose.Schema({
       newsComment: {
         type: String,
       },
+      avatar: {
+        type: String,
+        default:
+          "https://res.cloudinary.com/dh1fsseho/image/upload/c_pad,b_auto:predominant,fl_preserve_transparency/v1669977353/Avatar/avatar2_z6yynb.jpg",
+      },
     },
   ],
 
