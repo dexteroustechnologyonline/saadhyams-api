@@ -27,8 +27,10 @@ const newsSchema = mongoose.Schema({
   },
   newsVideoLink: [
     {
-      type: String,
-      default: "",
+      videoLink: {
+        type: String,
+        default: "",
+      },
     },
   ],
   category: {
