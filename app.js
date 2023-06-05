@@ -74,19 +74,22 @@ const user = require("./routes/userRoute");
 app.use("/api/v1/user", user);
 
 const category = require("./routes/categoryRoute");
-app.use("/api/v1/category" ,category);
+app.use("/api/v1/category", category);
 
 const subCategory = require("./routes/subCategoryRoutes");
-app.use("/api/v1/subcategory" ,subCategory); 
+app.use("/api/v1/subcategory", subCategory);
 
 const universalTag = require("./routes/universalTagRoutes");
-app.use("/api/v1/universaltag" ,universalTag);
+app.use("/api/v1/universaltag", universalTag);
 
 const categoryTag = require("./routes/categoryTagRoutes");
-app.use("/api/v1/categorytag" ,categoryTag);
+app.use("/api/v1/categorytag", categoryTag);
 
 const news = require("./routes/newsRoute");
-app.use("/api/v1/news" ,news);
+app.use("/api/v1/news", news);
+
+const adds = require("./routes/addRoute");
+app.use("/api/v1/adds", adds);
 
 app.use(errorMiddleware);
 

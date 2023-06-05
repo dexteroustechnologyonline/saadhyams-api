@@ -25,14 +25,14 @@ const newsSchema = mongoose.Schema({
     type: String,
     default: "",
   },
-  newsVideoLink: [
-    {
-      videoLink: {
-        type: String,
-        default: "",
-      },
-    },
-  ],
+  newsVideoYouTubeLink: {
+    type: String,
+    default: "",
+  },
+  newsVideoTwitterLink: {
+    type: String,
+    default: "",
+  },
   category: {
     type: String,
     required: [true, "Please enter Category Name name"],
