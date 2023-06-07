@@ -3,6 +3,8 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const Reporter = require("../models/reporterModel");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
+const { log } = require("console");
+const cloudinary = require("cloudinary");
 
 exports.createReporter = async (req, res, next) => {
   try {
@@ -56,7 +58,6 @@ exports.getAllReporter = catchAsyncErrors(async (req, res) => {
   }
 });
 
-
 exports.loginReporter = catchAsyncErrors(async (req, res, next) => {
   try {
     const reporter = await Reporter.findOne({ mobile: req.body.mobile });
@@ -75,12 +76,12 @@ exports.loginReporter = catchAsyncErrors(async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-        firstname,
-        lastname,
-        email,
-        mobile,
-        kycdocument,
-        reporter,
+      firstname,
+      lastname,
+      email,
+      mobile,
+      kycdocument,
+      reporter,
     });
   } catch (error) {
     res.status(501).json({
@@ -184,6 +185,41 @@ exports.kycdocumentExist = catchAsyncErrors(async (req, res, next) => {
     return res.status(200).json({
       success: true,
       message: " kycdocument already exist",
+    });
+  } catch (error) {
+    res.status(501).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(400).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(500).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+  }
+});
+
+exports.UploadImage = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const kycdocumentImage = await cloudinary.v2.uploader.upload(
+      req.body.kycdocumentImage,
+      {
+        folder: "KycDocument/kycdocumentImage",
+        width: 600,
+        height: 400,
+        crop: "scale",
+      }
+    );
+    const kycdocumentImages = kycdocumentImage.secure_url;
+    res.status(200).json({
+      success: true,
+      kycdocumentImages,
     });
   } catch (error) {
     res.status(501).json({
