@@ -211,8 +211,8 @@ exports.UploadImage = catchAsyncErrors(async (req, res, next) => {
       req.body.kycdocumentImage,
       {
         folder: "KycDocument/kycdocumentImage",
-        width: 600,
-        height: 400,
+        // width: 600,
+        // height: 400,
         crop: "scale",
       }
     );
@@ -220,6 +220,43 @@ exports.UploadImage = catchAsyncErrors(async (req, res, next) => {
     res.status(200).json({
       success: true,
       kycdocumentImages,
+    });
+  } catch (error) {
+    res.status(501).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(400).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(500).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+  }
+});
+
+exports.UpdateReporter = catchAsyncErrors(async (req, res, next) => {
+  try {
+    let reporter = await Reporter.findById(req.params.id);
+    if (!reporter) {
+      return res.status(500).json({
+        success: false,
+        message: "reporter not found",
+      });
+    }
+    reporter = await Reporter.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      useFindAndModify: false,
+      runValidators: true,
+    });
+    res.status(200).json({
+      success: true,
+      reporter: reporter,
     });
   } catch (error) {
     res.status(501).json({

@@ -46,8 +46,18 @@ const reporterSchema = mongoose.Schema({
 
   role: {
     type: String,
-    default: "user",
+    default: "reporter",
   },
+
+  reporterStatus: {
+    type: String,
+    default: "1",
+  },
+  reporterStatusText: {
+    type: String,
+    default: "Not Approve",
+  },
+
   createdAt: {
     type: Date,
     default: Date.now,
