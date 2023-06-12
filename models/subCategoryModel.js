@@ -24,7 +24,9 @@ const subCategorySchema = mongoose.Schema({
   },
   thumbnail: {
     type: String,
-    required: [true, "Please provide thumbnail"],
+    // required: [true, "Please provide thumbnail"],
+    default:
+      "https://res.cloudinary.com/dfoquniuy/image/upload/v1680860262/SubCategory/Thumbnail/ajexlzjwxbdtamoi4ysg.png",
   },
   createdAt: {
     type: Date,
