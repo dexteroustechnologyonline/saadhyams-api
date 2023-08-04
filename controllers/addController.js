@@ -92,8 +92,8 @@ exports.UploadbigBanner = catchAsyncErrors(async (req, res, next) => {
   try {
     const bigBanner = await cloudinary.v2.uploader.upload(req.body.bigBanner, {
       folder: "Add/BigBanner",
-      width: 1110,
-      height: 180,
+      // width: 1110,
+      // height: 180,
       crop: "scale",
     });
     const bigBanners = bigBanner.secure_url;
@@ -125,8 +125,8 @@ exports.UploadLongBanner = catchAsyncErrors(async (req, res, next) => {
       req.body.LongBanner,
       {
         folder: "Add/LongBanner",
-        width: 729,
-        height: 90,
+        // width: 729,
+        // height: 90,
         crop: "scale",
       }
     );
@@ -159,8 +159,8 @@ exports.UploadSmallBanner = catchAsyncErrors(async (req, res, next) => {
       req.body.SmallBanner,
       {
         folder: "Add/SmallBanner",
-        width: 330,
-        height: 250,
+        // width: 330,
+        // height: 250,
         crop: "scale",
       }
     );
