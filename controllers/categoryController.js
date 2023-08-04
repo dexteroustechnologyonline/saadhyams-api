@@ -27,7 +27,7 @@ exports.createCategory = catchAsyncErrors(async (req, res, next) => {
       massage: error._message,
       error: error,
     });
-  }
+  } 
 });
 
 exports.getAllCategory = catchAsyncErrors(async (req, res) => {
@@ -163,8 +163,8 @@ exports.UploadImage = catchAsyncErrors(async (req, res, next) => {
   try {
     const thumbnail = await cloudinary.v2.uploader.upload(req.body.thumbnail, {
       folder: "Category/Thumbnail",
-      width: 600,
-      height: 400,
+      width: 400,
+      height: 600,
       crop: "scale",
     });
     const thumbnails = thumbnail.secure_url;
