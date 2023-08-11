@@ -240,6 +240,41 @@ exports.UploadImage = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
+exports.Uploadavathar = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const avatharImage = await cloudinary.v2.uploader.upload(
+      req.body.avatharImage,
+      {
+        folder: "avatharImage/avatharImageImage",
+        // width: 600,
+        // height: 400,
+        crop: "scale",
+      }
+    );
+    const avatharImages = avatharImage.secure_url;
+    res.status(200).json({
+      success: true,
+      avatharImages,
+    });
+  } catch (error) {
+    res.status(501).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(400).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(500).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+  }
+});
+
 exports.UpdateReporter = catchAsyncErrors(async (req, res, next) => {
   try {
     let reporter = await Reporter.findById(req.params.id);

@@ -34,10 +34,19 @@ const reporterSchema = mongoose.Schema({
     unique: [true, "kycdocument already exist"],
     trim: true,
   },
-  kycdocumentImage: {
+  district: {
     type: String,
-    default: "",
+    trim: true,
   },
+  mandal: {
+    type: String,
+    trim: true,
+  },
+  kycdocumentImage: [
+    {
+      type: String,
+    },
+  ],
   avatar: {
     type: String,
     default:
