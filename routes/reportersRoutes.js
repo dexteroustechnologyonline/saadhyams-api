@@ -8,13 +8,15 @@ const {
   getAllReporter,
   UploadImage,
   UpdateReporter,
-  Uploadavathar
+  Uploadavathar,
+  loginReporterBypassword,
 } = require("../controllers/reporterController");
 
 const router = express.Router();
 
 router.route("/register").post(createReporter);
 router.route("/login").post(loginReporter);
+router.route("/loginbypassword").post(loginReporterBypassword);
 
 router.route("/reporterall").get(getAllReporter);
 router.route("/mobile/:mobile").get(mobileExist);

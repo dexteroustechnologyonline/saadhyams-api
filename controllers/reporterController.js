@@ -240,6 +240,51 @@ exports.UploadImage = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
+exports.loginReporterBypassword = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+
+    // checking if user has given password and email both
+    console.log("1");
+
+    if (!email || !password) {
+      return next(new ErrorHander("Please Enter Email & Password", 400));
+    }
+    console.log("2");
+    const reporter = await Reporter.findOne({ email }).select("+password");
+    if (!reporter) {
+      return next(new ErrorHander("Invalid email or password", 401));
+    }
+    console.log("3");
+    const isPasswordMatched = await reporter.comparePassword(password);
+    console.log("4");
+    if (!isPasswordMatched) {
+      return next(new ErrorHander("Invalid email or password", 401));
+    }
+    console.log("5");
+    res.status(201).json({
+      success: true,
+      reporter,
+    });
+  } catch (error) {
+    res.status(501).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(400).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(500).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+  }
+});
+
 exports.Uploadavathar = catchAsyncErrors(async (req, res, next) => {
   try {
     const avatharImage = await cloudinary.v2.uploader.upload(
