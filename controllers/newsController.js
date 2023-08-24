@@ -68,8 +68,8 @@ exports.UploadImage = catchAsyncErrors(async (req, res, next) => {
   try {
     const slider = await cloudinary.v2.uploader.upload(req.body.slider, {
       folder: "News/Slider",
-      width: 850,
-      height: 565,
+      // width: 850,
+      // height: 565,
       crop: "scale",
     });
     const sliders = slider.secure_url;

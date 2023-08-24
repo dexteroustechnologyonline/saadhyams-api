@@ -102,6 +102,48 @@ exports.loginReporter = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
+// for Mobile and password
+exports.loginReporterBypassword = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+
+    // checking if user has given password and email both
+
+    if (!email || !password) {
+      return next(new ErrorHander("Please Enter Email & Password", 400));
+    }
+
+    const reporter = await Reporter.findOne({ email }).select("+password");
+    if (!reporter) {
+      return next(new ErrorHander("Invalid email or password", 401));
+    }
+    const isPasswordMatched = await reporter.comparePassword(password);
+    if (!isPasswordMatched) {
+      return next(new ErrorHander("Invalid email or password", 401));
+    }
+    res.status(201).json({
+      success: true,
+      reporter,
+    });
+  } catch (error) {
+    res.status(501).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(400).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(500).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+  }
+});
+
 exports.mobileExist = catchAsyncErrors(async (req, res, next) => {
   try {
     let reporter = await Reporter.findOne({ mobile: req.params.mobile });
@@ -220,6 +262,41 @@ exports.UploadImage = catchAsyncErrors(async (req, res, next) => {
     res.status(200).json({
       success: true,
       kycdocumentImages,
+    });
+  } catch (error) {
+    res.status(501).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(400).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(500).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+  }
+});
+
+exports.Uploadavathar = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const avatharImage = await cloudinary.v2.uploader.upload(
+      req.body.avatharImage,
+      {
+        folder: "avatharImage/avatharImageImage",
+        // width: 600,
+        // height: 400,
+        crop: "scale",
+      }
+    );
+    const avatharImages = avatharImage.secure_url;
+    res.status(200).json({
+      success: true,
+      avatharImages,
     });
   } catch (error) {
     res.status(501).json({

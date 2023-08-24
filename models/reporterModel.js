@@ -12,13 +12,17 @@ const reporterSchema = mongoose.Schema({
   },
   lastname: {
     type: String,
-    required: [true, "Please enter  lastname"],
     trim: true,
   },
   email: {
     type: String,
     required: [true, "Please provide email"],
     unique: [true, "email already exist"],
+    trim: true,
+  },
+  password: {
+    type: String,
+    required: [true, "Please provide password"],
     trim: true,
   },
 
@@ -34,10 +38,19 @@ const reporterSchema = mongoose.Schema({
     unique: [true, "kycdocument already exist"],
     trim: true,
   },
-  kycdocumentImage: {
+  district: {
     type: String,
-    default: "",
+    trim: true,
   },
+  mandal: {
+    type: String,
+    trim: true,
+  },
+  kycdocumentImage: [
+    {
+      type: String,
+    },
+  ],
   avatar: {
     type: String,
     default:
@@ -63,5 +76,26 @@ const reporterSchema = mongoose.Schema({
     default: Date.now,
   },
 });
+
+reporterSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    next();
+  }
+
+  this.password = await bcrypt.hash(this.password, 10);
+});
+
+// JWT TOKEN
+reporterSchema.methods.getJWTToken = function () {
+  return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRE,
+  });
+};
+
+// Compare Password
+
+reporterSchema.methods.comparePassword = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
 
 module.exports = mongoose.model("Reporter", reporterSchema);

@@ -8,15 +8,15 @@ const addsSchema = mongoose.Schema({
   },
   bigBanner: {
     type: String,
-    required: [true, "Please provide bigBanner"],
+    // required: [true, "Please provide bigBanner"],
   },
   LongBanner: {
     type: String,
-    required: [true, "Please provide LongBanner"],
+    // required: [true, "Please provide LongBanner"],
   },
   SmallBanner: {
     type: String,
-    required: [true, "Please provide SmallBanner"],
+    // required: [true, "Please provide SmallBanner"],
   },
   status: {
     type: Boolean,

@@ -51,10 +51,6 @@ const newsSchema = mongoose.Schema({
     required: [true, "subCategoryId Require"],
     ref: "Subcategory",
   },
-  sliderShow: {
-    type: Boolean,
-    default: false,
-  },
 
   categoryTag: {
     type: String,
@@ -84,6 +80,10 @@ const newsSchema = mongoose.Schema({
     type: String,
     required: [true, "Please enter  name"],
     trim: true,
+  },
+  sliderShow: {
+    type: Boolean,
+    default: false,
   },
 
   email: {
