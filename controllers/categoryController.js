@@ -163,7 +163,11 @@ exports.UploadImage = catchAsyncErrors(async (req, res, next) => {
   try {
     const thumbnail = await cloudinary.v2.uploader.upload(req.body.thumbnail, {
       folder: "Category/Thumbnail",
+<<<<<<< HEAD
       width: 400,
+=======
+      width: 600,
+>>>>>>> c61e1a5bc54de70826a3f2845ca0cd6dfb3b6ed1
       height: 400,
       crop: "scale",
     });

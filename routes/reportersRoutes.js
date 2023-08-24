@@ -9,7 +9,11 @@ const {
   UploadImage,
   UpdateReporter,
   Uploadavathar,
+<<<<<<< HEAD
   loginReporterBypassword
+=======
+  loginReporterBypassword,
+>>>>>>> c61e1a5bc54de70826a3f2845ca0cd6dfb3b6ed1
 } = require("../controllers/reporterController");
 
 const router = express.Router();
