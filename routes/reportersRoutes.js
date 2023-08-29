@@ -9,7 +9,8 @@ const {
   UploadImage,
   UpdateReporter,
   Uploadavathar,
-  loginReporterBypassword
+  loginReporterBypassword,
+  DeleteReporter
 } = require("../controllers/reporterController");
 
 const router = express.Router();
@@ -25,5 +26,6 @@ router.route("/avatharImage").post(Uploadavathar);
 router.route("/email/:email").get(emailExist);
 router.route("/kycdocument/:kycdocument").get(kycdocumentExist);
 router.route("/reporterUpdate/:id").put(UpdateReporter);
+router.route("/reporterDelete/:id").delete(DeleteReporter);
 
 module.exports = router;

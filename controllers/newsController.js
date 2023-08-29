@@ -214,6 +214,39 @@ exports.getNewsByReporterId = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
+exports.getFindByNewsId = catchAsyncErrors(async (req, res, next) => {
+  try {
+    let news = await News.findById(req.params.id);
+
+    if (!news) {
+      return res.status(500).json({
+        success: false,
+        message: "news not found",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      news,
+    });
+  } catch (error) {
+    res.status(501).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(400).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(500).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+  }
+});
+
 exports.DeleteNews = catchAsyncErrors(async (req, res, next) => {
   try {
     let news = await News.findById(req.params.id);

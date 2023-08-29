@@ -353,3 +353,69 @@ exports.UpdateReporter = catchAsyncErrors(async (req, res, next) => {
     });
   }
 });
+
+exports.UpdateReporterAll = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const repertories = await Reporter.find();
+    for (let index = 0; index < repertories.length; index++) {
+      let reporter= repertories[index];
+      reporter = await Reporter.findByIdAndUpdate(req.params.id, {password:"123456"}, {
+        new: true,
+        useFindAndModify: false,
+        runValidators: true,
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+    });
+  } catch (error) {
+    res.status(501).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(400).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(500).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+  }
+});
+
+exports.DeleteReporter = catchAsyncErrors(async (req, res, next) => {
+  try {
+    let reporter = await Reporter.findById(req.params.id);
+    if (!reporter) {
+      return res.status(500).json({
+        success: false,
+        message: "reporter not found",
+      });
+    }
+    await reporter.remove();
+    res.status(200).json({
+      success: true,
+    });
+  } catch (error) {
+    res.status(501).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(400).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(500).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+  }
+});
