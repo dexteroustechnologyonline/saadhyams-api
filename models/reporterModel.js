@@ -70,7 +70,6 @@ const reporterSchema = mongoose.Schema({
     type: String,
     default: "Not Approve",
   },
-
   createdAt: {
     type: Date,
     default: Date.now,
@@ -81,7 +80,6 @@ reporterSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     next();
   }
-
   this.password = await bcrypt.hash(this.password, 10);
 });
 
