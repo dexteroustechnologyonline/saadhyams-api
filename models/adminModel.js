@@ -39,12 +39,10 @@ const adminSchema = mongoose.Schema({
     default:
       "https://res.cloudinary.com/dh1fsseho/image/upload/c_pad,b_auto:predominant,fl_preserve_transparency/v1669977353/Avatar/avatar2_z6yynb.jpg",
   },
-
   role: {
     type: String,
     default: "admin",
   },
-
   resetPasswordToken: String,
   resetPasswordExpire: Date,
   createdAt: {

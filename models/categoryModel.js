@@ -13,12 +13,10 @@ const CategorySchema = mongoose.Schema({
     unique: [true, "slugUrl already exist"],
     trim: true,
   },
-
   thumbnail: {
     type: String,
     required: [true, "Please provide thumbnail"],
   },
-
   status: {
     type: Boolean,
     default: false,

@@ -26,41 +26,18 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(
-  compression({
-    level: 9,
-    threshold: 100 * 10,
-    filter: (req, res) => {
-      if (req.headers["x-no-compression"]) {
-        return false;
-      }
-      return compression.filter(req, res);
-    },
-  })
-);
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ limit: "10000kb", extended: true }));
+app.use(bodyParser.urlencoded({ limit: "10000kb", extended: true }));
 app.use(fileUpload({ useTempFiles: true }));
 
-// app.get("/",(req, res) =>{
-//   res.json("server start")
-// });
-//  app.listen(PORT, () => {
-//   console.log(`server is running at port no ${PORT}`);
-//  })
+
 const corsOptions = {
   origin: "*",
   optionSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
-// app.use(cors());
-// app.use(
-//   session({
-//     secret: "keyboard cat",
-//     // resave: false,
-//     // saveUninitialized: true,
-//     // cookie: { secure: true },
-//   })
-// );
+
 
 //Rotes Imports
 

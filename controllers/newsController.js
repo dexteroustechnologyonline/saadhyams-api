@@ -214,6 +214,72 @@ exports.getNewsByReporterId = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
+exports.getFindByNewsId = catchAsyncErrors(async (req, res, next) => {
+  try {
+    let news = await News.findById(req.params.id);
+
+    if (!news) {
+      return res.status(500).json({
+        success: false,
+        message: "news not found",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      news,
+    });
+  } catch (error) {
+    res.status(501).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(400).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(500).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+  }
+});
+
+exports.getFindByNewsurl = catchAsyncErrors(async (req, res, next) => {
+  try {
+    let news = await News.find({ slugUrl: req.params.url });
+
+    if (!news) {
+      return res.status(500).json({
+        success: false,
+        message: "news not found",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      news,
+    });
+  } catch (error) {
+    res.status(501).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(400).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(500).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+  }
+});
+
 exports.DeleteNews = catchAsyncErrors(async (req, res, next) => {
   try {
     let news = await News.findById(req.params.id);
@@ -256,6 +322,46 @@ exports.UpdateNews = catchAsyncErrors(async (req, res, next) => {
       });
     }
     news = await News.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      useFindAndModify: false,
+      runValidators: true,
+    });
+    res.status(200).json({
+      success: true,
+      news: news,
+    });
+  } catch (error) {
+    res.status(501).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(400).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+    res.status(500).json({
+      success: false,
+      massage: error._message,
+      error: error,
+    });
+  }
+});
+
+
+
+exports.UpdateNewsVisit = catchAsyncErrors(async (req, res, next) => {
+  try {
+    let news = await News.findById(req.params.id);
+    if (!news) {
+      return res.status(500).json({
+        success: false,
+        message: "news not found",
+      });
+    }
+    news.numberofViews = news.numberofViews + 1
+    news = await News.findByIdAndUpdate(req.params.id, news, {
       new: true,
       useFindAndModify: false,
       runValidators: true,

@@ -110,6 +110,15 @@ const newsSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  reporterMandal: {
+    type: String,
+  },
+  reporterDist: {
+    type: String,
+  },
+  reporterImage: {
+    type: String,
+  },
 
   review: [
     {
