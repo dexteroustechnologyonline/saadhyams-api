@@ -247,6 +247,7 @@ exports.getFindByNewsId = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
+<<<<<<< HEAD
 exports.getFindByNewsurl = catchAsyncErrors(async (req, res, next) => {
   try {
     let news = await News.find({ slugUrl: req.params.url });
@@ -280,6 +281,8 @@ exports.getFindByNewsurl = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
+=======
+>>>>>>> 561734db211535f922634aebe1ae65ebdc6db5f2
 exports.DeleteNews = catchAsyncErrors(async (req, res, next) => {
   try {
     let news = await News.findById(req.params.id);
